@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MoviesActivity">
+    <item
+        android:id="@+id/movie_menu_orderByPop"
+        android:orderInCategory="1"
+        android:title="@string/order_by_popularity"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/popular_icon"
+        />
+
+    <item
+        android:id="@+id/movie_menu_orderByNew"
+        android:orderInCategory="1"
+        android:title="@string/order_by_rate"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/trending_icon"
+        />
+
+</menu>

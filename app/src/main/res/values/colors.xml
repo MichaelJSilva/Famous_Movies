@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#263238</color>
+    <color name="colorPrimaryDark">#000a12</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="movie_card_bg">#424242</color>
+    <color name="movie_card_font">#F5F5F5</color>
+    <color name="dark_bg">#1b1b1b</color>
+    <color name="toolbar_color">#263238</color>
+    <color name="white">#FFFFFF</color>
+    <color name="details_font">#FFFFFF</color>
+</resources>
