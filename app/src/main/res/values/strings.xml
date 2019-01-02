@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">Famous_Movies</string>
+    <string name="app_name">Pop.Movies</string>
     <string name="search_movie">Search movie</string>
     <string name="order_by_popularity">Popular</string>
     <string name="order_by_rate">Top Rated</string>
+    <string name="added_to_favorites">Added to favorites</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="offline">No internet connection.</string>
+    <string name="watch_trailer">Watch movie trailer</string>
+    <string name="view_favorites">View Favorites</string>
 </resources>

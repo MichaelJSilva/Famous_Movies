@@ -1,10 +1,11 @@
 package com.prototype48.michael.famous_movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -16,38 +17,41 @@ import android.widget.Toast;
 
 import com.prototype48.michael.famous_movies.adapter.MoviesAdapter;
 import com.prototype48.michael.famous_movies.model.Movie;
+import com.prototype48.michael.famous_movies.interfaces.AsyncTaskDelegate;
+import com.prototype48.michael.famous_movies.service.MovieService;
 import com.prototype48.michael.famous_movies.utils.MovieApiUtils;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MoviesActivity extends AppCompatActivity {
+public class MoviesActivity extends AppCompatActivity implements AsyncTaskDelegate {
 
     private RecyclerView mMoviesList;
 
     private MoviesAdapter mMoviesAdapter;
 
-    private MovieApiUtils movieApiUtils;
-
-    private ArrayList<Movie> movieResponse;
-
     private ProgressBar mLoading;
 
     private URL searchUrl = null;
+
+    private static final String MOVIE_PATH_POPULAR = "Popular";
+
+    private static final String MOVIE_PATH_TOPRATED = "Top Rated";
+
+    private static final String MOVIE_VIEW_FAVORITES = "View Favorites";
+
+    private static final String FAVORITE_MOVIES_TAG = "FavoriteMovies";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
-        movieApiUtils = new MovieApiUtils();
-
         mMoviesList =  findViewById(R.id.movie_list);
 
         mLoading    =  findViewById(R.id.pgb_loading);
 
-        loadMoviesList("popular");
+        loadMoviesList(MOVIE_PATH_POPULAR);
 
     }
 
@@ -69,81 +73,38 @@ public class MoviesActivity extends AppCompatActivity {
 
         String clickedButton = item.getTitle().toString();
 
-        if (clickedButton.equals("Top Rated")){
-            loadMoviesList("top_rated");
+        if (clickedButton.equals(MOVIE_PATH_TOPRATED)){
+            loadMoviesList(MOVIE_PATH_TOPRATED);
         }else
-            if (clickedButton.equals("Popular")){
-                loadMoviesList("popular");
+            if (clickedButton.equals(MOVIE_PATH_POPULAR)){
+                loadMoviesList(MOVIE_PATH_POPULAR);
+        }else
+            if(clickedButton.equals(MOVIE_VIEW_FAVORITES)){
+                loadFavoritemovies();
             }
+
         return super.onOptionsItemSelected(item);
     }
 
     public void loadMoviesList(String path){
 
-        AsyncTask asyncTask = new AsyncTask();
+        // since there is no movie selected yet, no need to pass movieID
+        MovieService movieService = new MovieService(getApplicationContext(),this,0);
+
 
         GridLayoutManager layoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
 
         mMoviesList.setLayoutManager(layoutManager);
 
-
-
         if (connected(this)){
-            asyncTask.execute(path);
+            movieService.execute(path);
         }else{
-            Toast.makeText(this,"No internet connection",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,R.string.offline,Toast.LENGTH_LONG).show();
         }
 
     }
 
-    public class AsyncTask extends android.os.AsyncTask<String,Void,ArrayList<Movie>> {
 
-        ArrayList<Movie> movies = new ArrayList<>();
-
-
-        @Override
-        protected ArrayList<Movie> doInBackground(String... strings) {
-
-            String path = strings[0];
-            try {
-                searchUrl = movieApiUtils.createURL(path);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            movies = movieApiUtils.getMovies(searchUrl);
-
-            return movies;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoading.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Movie> movies) {
-
-            movieResponse = movies;
-
-            mMoviesList.setAdapter(null);
-
-            mMoviesAdapter = new MoviesAdapter(getApplicationContext());
-
-            mMoviesAdapter.setmMovies(movies);
-
-            mMoviesList.setAdapter(mMoviesAdapter);
-
-            mMoviesAdapter.notifyDataSetChanged();
-
-            mLoading.setVisibility(View.INVISIBLE);
-
-            super.onPostExecute(movies);
-        }
-
-
-    }
 
     public boolean connected(Context context) {
 
@@ -157,8 +118,42 @@ public class MoviesActivity extends AppCompatActivity {
         }else{
             return  false;
         }
+    }
+
+    @Override
+    public void afterPost(Object output) {
+
+        if (output != null){
+
+            ArrayList<Movie> movies = (ArrayList<Movie>) output;
+
+            MovieService movieService = new MovieService(getApplicationContext(),this,0);
+
+
+            mMoviesList.setAdapter(null);
+
+            mMoviesAdapter = new MoviesAdapter(getApplicationContext());
+
+            mMoviesAdapter.setmMovies(movies);
+
+            mMoviesList.setAdapter(mMoviesAdapter);
+
+            mMoviesAdapter.notifyDataSetChanged();
+
+            mLoading.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
+    public void loadFavoritemovies(){
+
+        Intent intent = new Intent(this,MovieFavoritesActivity.class);
+
+        this.startActivity(intent);
+
 
     }
+
 
 }
 

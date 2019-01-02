@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="favorite_button_filled">@drawable/baseline_favorite_black_24dp</drawable>
+    <drawable name="favorite_button_empty">@drawable/baseline_favorite_border_black_24dp</drawable>
+    <drawable name="favorite_button_filled_white">@drawable/baseline_favorite_white_24dp</drawable>
+    <drawable name="remove_from_favorites">@drawable/outline_cancel_black_24dp</drawable>
+    <drawable name="new_movies">@drawable/baseline_fiber_new_white_24dp</drawable>
+    <drawable name="popular_movies">@drawable/baseline_trending_up_white_24dp</drawable>
+</resources>

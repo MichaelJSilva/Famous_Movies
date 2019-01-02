@@ -1,23 +1,34 @@
 package com.prototype48.michael.famous_movies.model;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
 
+    @SerializedName("id")
+    private long id;
     @SerializedName("title")
     private String title;
     @SerializedName("poster_path")
-    private String poster_path;
+    private String posterPath;
     @SerializedName("overview")
     private String overview;
     @SerializedName("vote_average")
-    private double vote_average;
+    private double voteAverage;
     @SerializedName("release_date")
-    private String release_date;
+    private String releaseDate;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -27,12 +38,8 @@ public class Movie implements Serializable {
         this.title = title;
     }
 
-    public String getPoster_path() {
-        return poster_path;
-    }
-
-    public void setPoster_path(String poster_path) {
-        this.poster_path = poster_path;
+    public String getposterPath() {
+        return posterPath;
     }
 
     public String getOverview() {
@@ -43,19 +50,62 @@ public class Movie implements Serializable {
         this.overview = overview;
     }
 
-    public double getVote_average() {
-        return vote_average;
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
-    public void setVote_average(double vote_average) {
-        this.vote_average = vote_average;
+    public double getVoteAverage() {
+        return voteAverage;
     }
 
-    public String getRelease_date() {
-        return release_date;
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    protected Movie(Parcel in) {
+        id    = in.readLong();
+        title = in.readString();
+        posterPath = in.readString();
+        overview = in.readString();
+        voteAverage = in.readDouble();
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeString(posterPath);
+        dest.writeString(overview);
+        dest.writeDouble(voteAverage);
+        dest.writeString(releaseDate);
     }
 }

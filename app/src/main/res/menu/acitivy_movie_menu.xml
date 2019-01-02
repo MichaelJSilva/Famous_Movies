@@ -8,7 +8,7 @@
         android:orderInCategory="1"
         android:title="@string/order_by_popularity"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/popular_icon"
+        android:icon="@drawable/new_movies"
         />
 
     <item
@@ -18,5 +18,15 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/trending_icon"
         />
+
+    <item
+        android:id="@+id/view_favorites"
+        android:orderInCategory="3"
+        android:title="@string/view_favorites"
+        android:icon="@drawable/favorite_button_filled_white"
+        app:showAsAction="ifRoom">
+
+    </item>
+
 
 </menu>

@@ -9,4 +9,6 @@
     <color name="toolbar_color">#263238</color>
     <color name="white">#FFFFFF</color>
     <color name="details_font">#FFFFFF</color>
+    <color name="favorite_fab_color">#ffff00</color>
+    <color name="remove_fab_color">#ff5252</color>
 </resources>
