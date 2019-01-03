@@ -77,7 +77,7 @@ public class MovieDetailsTrailerFragment extends Fragment implements MovieFragme
 
         String urlBackGround = mMovieUtils.createPosterPath(mMovie,true);
 
-        mMovieUtils.loadPosterImageView(this.getContext(),mBackgroundImage,urlBackGround);
+        mMovieUtils.loadPosterImageView(this.getContext(),mBackgroundImage,urlBackGround,true);
 
         movieService.execute("videos");
 

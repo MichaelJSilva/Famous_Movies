@@ -32,7 +32,9 @@ public class MoviesActivity extends AppCompatActivity implements AsyncTaskDelega
 
     private ProgressBar mLoading;
 
-    private URL searchUrl = null;
+    String clickedButton;
+
+    private String mOrderBy;
 
     private static final String MOVIE_PATH_POPULAR = "Popular";
 
@@ -41,6 +43,8 @@ public class MoviesActivity extends AppCompatActivity implements AsyncTaskDelega
     private static final String MOVIE_VIEW_FAVORITES = "View Favorites";
 
     private static final String FAVORITE_MOVIES_TAG = "FavoriteMovies";
+
+    private static final String LIST_ORDER_TAG = "Order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,17 @@ public class MoviesActivity extends AppCompatActivity implements AsyncTaskDelega
 
         mLoading    =  findViewById(R.id.pgb_loading);
 
-        loadMoviesList(MOVIE_PATH_POPULAR);
+        if (savedInstanceState != null){
+            if (savedInstanceState.containsKey(LIST_ORDER_TAG)){
+                mOrderBy = savedInstanceState.getString(LIST_ORDER_TAG);
+            }else{
+                mOrderBy = MOVIE_PATH_POPULAR;
+            }
+        }else{
+            mOrderBy = MOVIE_PATH_POPULAR;
+        }
+
+        loadMoviesList(mOrderBy);
 
     }
 
@@ -65,13 +79,22 @@ public class MoviesActivity extends AppCompatActivity implements AsyncTaskDelega
 
         return super.onCreateOptionsMenu(menu);
 
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putString(LIST_ORDER_TAG,mOrderBy);
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        String clickedButton = item.getTitle().toString();
+        clickedButton = item.getTitle().toString();
+
+        mOrderBy = clickedButton;
 
         if (clickedButton.equals(MOVIE_PATH_TOPRATED)){
             loadMoviesList(MOVIE_PATH_TOPRATED);
@@ -87,6 +110,7 @@ public class MoviesActivity extends AppCompatActivity implements AsyncTaskDelega
     }
 
     public void loadMoviesList(String path){
+
 
         // since there is no movie selected yet, no need to pass movieID
         MovieService movieService = new MovieService(getApplicationContext(),this,0);

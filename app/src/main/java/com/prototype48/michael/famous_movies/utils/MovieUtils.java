@@ -26,12 +26,19 @@ public class MovieUtils {
         return completePath;
     }
 
-    public void loadPosterImageView(Context context, ImageView imageView, String posterPath){
+    public void loadPosterImageView(Context context, ImageView imageView, String posterPath,Boolean backgroundImage){
 
-        Glide.with(context)
-                .load(posterPath)
-                .apply(new RequestOptions().fitCenter().centerInside())
-                .into(imageView);
+        if (backgroundImage){
+            Glide.with(context)
+                    .load(posterPath)
+                    .apply(new RequestOptions().centerCrop())
+                    .into(imageView);
+        }else {
+            Glide.with(context)
+                    .load(posterPath)
+                    .apply(new RequestOptions().fitCenter())
+                    .into(imageView);
+        }
 
     }
 

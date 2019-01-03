@@ -82,7 +82,7 @@ public class MovieDetailsReviewsFragment extends Fragment implements MovieFragme
 
         urlBackGround = mMovieUtils.createPosterPath(mMovie,true);
 
-        mMovieUtils.loadPosterImageView(this.getContext(),mBackgroundImage,urlBackGround);
+        mMovieUtils.loadPosterImageView(this.getContext(),mBackgroundImage,urlBackGround,true);
 
 
 

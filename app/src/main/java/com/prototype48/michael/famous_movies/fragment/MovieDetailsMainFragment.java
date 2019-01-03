@@ -90,9 +90,9 @@ public class MovieDetailsMainFragment extends Fragment implements MovieFragmentI
 
             urlPoster = mMovieUtils.createPosterPath(movie,false);
 
-            mMovieUtils.loadPosterImageView(this.getContext(),tvImageBackground,urlBackGround);
+            mMovieUtils.loadPosterImageView(this.getContext(),tvImageBackground,urlBackGround,true);
 
-            mMovieUtils.loadPosterImageView(this.getContext(),tvPoster,urlPoster);
+            mMovieUtils.loadPosterImageView(this.getContext(),tvPoster,urlPoster,false);
 
 
 
